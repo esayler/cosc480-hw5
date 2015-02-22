@@ -1,6 +1,13 @@
 #main
   %h3 All products
 
+  - if flash[:notice]
+    %p.notice= flash[:notice]
+  - else flash[:alert]
+    %p.alert= flash[:alert]
+
+  %p= link_to 'Create a new product', new_product_path
+
   %table.products_table
     %tr.products_header
       %th= link_to "Name", products_path(sort: "name")

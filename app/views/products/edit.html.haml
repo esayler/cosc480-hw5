@@ -1,0 +1,33 @@
+#main
+  %h3 Edit Product
+
+  - if flash[:notice]
+    %p.notice= flash[:notice]
+  - else flash[:alert]
+    %p.alert= flash[:alert]
+
+  %p= link_to "Cancel", products_path
+
+  = form_for @product, :url => product_path(@product), :html => { :multipart => true } do |form|
+
+    %p=form.label :name
+    %p=form.text_field :name
+
+    %p=form.label :description
+    %p=form.text_field :description
+
+    %p=form.label :minimum_age_appropriate
+    %p=form.number_field :minimum_age_appropriate
+
+    %p=form.label :maximum_age_appropriate
+    %p=form.number_field :maximum_age_appropriate
+
+    %p=form.label :price
+    %p=form.number_field :price
+
+    %p=form.label :image
+    %p=form.file_field :image
+
+    %p=form.submit
+
+  %p= link_to "Cancel", products_path

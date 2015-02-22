@@ -1,10 +1,16 @@
 #main
+  %h2 Product details for #{@product.name}
 
-%h2 Product details for #{@product.name}
-%ul
-  %li= image_tag @product.image.url(:medium)
-  %li= "Description: #{@product.description}"
-  %li= "Ages: #{@product.age_range}"
-  %li= "Price: #{number_to_currency(@product.price)}"
+  - if flash[:notice]
+    %p.notice= flash[:notice]
+  - else flash[:alert]
+    %p.alert= flash[:alert]
 
-%p= link_to 'Back to product list', products_path
+  %p= link_to 'Edit product', edit_product_path(@product)
+  %ul
+    %li= image_tag @product.image.url(:medium)
+    %li= "Description: #{@product.description}"
+    %li= "Ages: #{@product.age_range}"
+    %li= "Price: #{number_to_currency(@product.price)}"
+
+  %p= link_to 'Back to product list', products_path
