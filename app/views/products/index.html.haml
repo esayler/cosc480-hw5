@@ -7,4 +7,10 @@
       %th Description
       %th Appropriate ages
       %th Price
+    - @products.each do |p|
+      %tr
+        %td.productname= link_to "#{p.name}", product_path(p)
+        %td= p.description
+        %td= p.age_range
+        %td= number_to_currency(p.price)
 
