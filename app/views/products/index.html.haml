@@ -3,10 +3,10 @@
 
   %table.products_table
     %tr.products_header
-      %th= link_to "Name", products_path(sort_by: "name")
-      %th= link_to "Description", products_path(sort_by: "description")
-      %th= link_to "Appropriate ages", products_path(sort_by: "minimum_age_appropriate")
-      %th= link_to "Price", products_path(sort_by: "price")
+      %th= link_to "Name", products_path(sort: "name")
+      %th Description
+      %th= link_to "Appropriate ages", products_path(sort: "minimum_age_appropriate")
+      %th= link_to "Price", products_path(sort: "price")
     - @products.each do |p|
       %tr
         %td.productname= link_to "#{p.name}", product_path(p)
