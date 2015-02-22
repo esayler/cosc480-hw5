@@ -1,3 +1,9 @@
 #main
-  %table.products_table
 
+%h2 Product details for #{@product.name}
+%ul
+  %li= "Description: #{@product.description}"
+  %li= "Ages: #{@product.age_range}"
+  %li= "Price: #{number_to_currency(@product.price)}"
+
+%p= link_to 'Back to product list', products_path
