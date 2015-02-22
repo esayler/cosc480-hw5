@@ -1,5 +1,9 @@
 class Product < ActiveRecord::Base
 
+  has_attached_file :image, :styles => { :medium => "300x300>", :thumb => "100x100>" }, :default_url => "/images/:style/noimg.png"
+
+  validates_attachment :image, :content_type => {:content_type => ["image/jpeg", "image/png", "image/gif"]}
+
   def age_range
     age_lo = self.minimum_age_appropriate
     age_hi = self.maximum_age_appropriate
