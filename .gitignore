@@ -18,3 +18,5 @@
 
 # ignore locally generated Paperclip attachments
 /public/system
+
+*.tar
