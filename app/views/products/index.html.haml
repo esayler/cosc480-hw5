@@ -14,12 +14,12 @@
       %th Image
       %th Description
       %th= link_to "Appropriate ages", products_path(sort: "minimum_age_appropriate")
-      %th= link_to "Price", products_path(sort: "price")
+      %th#price= link_to "Price", products_path(sort: "price")
     - @products.each do |p|
       %tr
         %td.productname= link_to "#{p.name}", product_path(p)
         %td= image_tag p.image.url(:thumb)
         %td= p.description
         %td= p.age_range
-        %td= number_to_currency(p.price)
+        %td#price= number_to_currency(p.price)
 
