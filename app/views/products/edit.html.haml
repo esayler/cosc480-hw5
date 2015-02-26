@@ -2,6 +2,7 @@
   %h3 Edit Product
 
   %p= link_to "Cancel", products_path
+  %p= link_to "Delete product", product_path(@product), :method => :delete
 
   = form_for @product do |form|
 

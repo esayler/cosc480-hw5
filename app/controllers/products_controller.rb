@@ -21,7 +21,7 @@ class ProductsController < ApplicationController
       flash[:notice] = "New product #{@product.name} created successfully!"
       redirect_to products_path
     else
-      flash[:alert] = "Error in creating product!"
+      flash[:warning] = "Error in creating product!"
       redirect_to new_product_path
     end
   end
@@ -36,7 +36,7 @@ class ProductsController < ApplicationController
       flash[:notice] = "Product updated successfully!"
       redirect_to product_path(@product)
     else
-      flash[:alert] = "Error: Product wasn't updated successfully!"
+      flash[:warning] = "Error: Product wasn't updated successfully!"
       redirect_to edit_product_path(@product)
     end
   end
@@ -44,7 +44,7 @@ class ProductsController < ApplicationController
   def destroy
     @product = Product.find(params[:id])
     @product.destroy
-    flash[:alert] = "Product #{@product.name} deleted successfully!"
+    flash[:notice] = "Product #{@product.name} deleted successfully!"
     redirect_to products_path
   end
 
