@@ -7,7 +7,7 @@
     %p.alert= flash[:alert]
 
   %p= link_to "Cancel", products_path
-  = form_for @product, :url => products_path, :html => { :multipart => true } do |form|
+  = form_for @product do |form|
 
     %p=form.label :name
     %p=form.text_field :name

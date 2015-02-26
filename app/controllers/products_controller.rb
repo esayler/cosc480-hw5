@@ -1,4 +1,5 @@
 class ProductsController < ApplicationController
+  include ProductsHelper
   def index
     if params[:sort] != nil
       @products = Product.sorted_by(params[:sort])
@@ -12,7 +13,7 @@ class ProductsController < ApplicationController
   end
 
   def new
-    @product = Product.new
+    @product = empty_product
   end
 
   def create
