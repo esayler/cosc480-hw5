@@ -10,5 +10,11 @@
   %body
     #header
       %h1 Vandelay Industries Toy Store
-    = yield
+   
+  - if flash[:notice]
+    %p.notice= flash[:notice]
+  - else flash[:alert]
+    %p.alert= flash[:alert]
+
+  = yield
 

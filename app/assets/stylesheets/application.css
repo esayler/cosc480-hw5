@@ -13,3 +13,18 @@
  *= require_tree .
  *= require_self
  */
+
+
+body .notice {
+color: green;
+text-align: center;
+background-color: white;
+
+}
+
+body .warning {
+color: red;
+text-align: center;
+background-color: white;
+}
+
