@@ -1,11 +1,6 @@
 #main
   %h2 Create new product
 
-  - if flash[:notice]
-    %p.notice= flash[:notice]
-  - else flash[:alert]
-    %p.alert= flash[:alert]
-
   %p= link_to "Cancel", products_path
   = form_for @product do |form|
 

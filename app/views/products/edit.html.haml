@@ -1,12 +1,8 @@
 #main
   %h3 Edit Product
 
-  - if flash[:notice]
-    %p.notice= flash[:notice]
-  - else flash[:alert]
-    %p.alert= flash[:alert]
-
-  %p= link_to "Cancel", products_path
+  %p= link_to "Cancel", product_path(@product)
+  %p= link_to "Delete product", product_path(@product), :method => :delete
 
   = form_for @product do |form|
 
@@ -30,4 +26,4 @@
 
     %p=form.submit
 
-  %p= link_to "Cancel", products_path
+  %p= link_to "Cancel", product_path(@product)

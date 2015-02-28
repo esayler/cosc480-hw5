@@ -1,10 +1,29 @@
 class ProductsController < ApplicationController
   include ProductsHelper
+
   def index
-    if params[:sort] != nil
-      @products = Product.sorted_by(params[:sort])
+    if params.has_key?(:filter) && params.has_key?(:sort)
+      if @products = Product.filter_by(params[:filter])
+        session[:filter] = params[:filter]
+        if @products = @products.sorted_by(params[:sort])
+          session[:sort] = params[:sort]
+        end
+      end
+    elsif params.has_key?(:filter)
+      #new_sort = session[:sort]
+      if @products = Product.filter_by(params[:filter])
+        session[:filter] = params[:filter]
+      end
+    elsif params.has_key?(:sort)
+      #new_filter = session[:sort]
+      if @products = Product.sorted_by(params[:sort])
+        session[:sort] = params[:sort]
+      end
     else
-      @products = Product.sorted_by("name")
+      new_sort = session[:sort]
+      new_filter = session[:filter]
+      flash.keep
+      redirect_to products_path :sort => new_sort, :filter => new_filter
     end
   end
 
@@ -18,10 +37,10 @@ class ProductsController < ApplicationController
 
   def create
     if @product = Product.create(create_update_params)
-      flash[:notice] = "New product #{@product.name} created successfully"
+      flash[:notice] = "New product #{@product.name} created successfully!"
       redirect_to products_path
     else
-      flash[:alert] = "Error in creating product!"
+      flash[:warning] = "Error in creating product!"
       redirect_to new_product_path
     end
   end
@@ -36,14 +55,20 @@ class ProductsController < ApplicationController
       flash[:notice] = "Product updated successfully!"
       redirect_to product_path(@product)
     else
-      flash[:alert] = "Error: Product wasn't updated successfully!"
+      flash[:warning] = "Error: Product wasn't updated successfully!"
       redirect_to edit_product_path(@product)
     end
   end
 
-  private
-
-  def create_update_params
-    params.require(:product).permit(:name, :description, :price, :minimum_age_appropriate, :maximum_age_appropriate, :image)
+  def destroy
+    @product = Product.find(params[:id])
+    @product.destroy
+    flash[:notice] = "Product #{@product.name} deleted successfully!"
+    redirect_to products_path
   end
+
+  private
+    def create_update_params
+      params.require(:product).permit(:name, :description, :price, :minimum_age_appropriate, :maximum_age_appropriate, :image)
+    end
 end

@@ -1,11 +1,6 @@
 #main
   %h2 Product details for #{@product.name}
 
-  - if flash[:notice]
-    %p.notice= flash[:notice]
-  - else flash[:alert]
-    %p.alert= flash[:alert]
-
   %p= link_to 'Edit product', edit_product_path(@product)
   %ul
     %li= image_tag @product.image.url(:medium)
