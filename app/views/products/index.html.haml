@@ -2,18 +2,18 @@
   %h2 All products
 
   %p Session:
-  %p
-  - if session[:sort] != nil
-    = "sort: |#{session[:sort]}|"
-  - else
-    = "sort: |UNDEFINED|"
-  %p
-  - if session[:filter] != nil
-    = "filter: min_age |#{session[:filter][:min_age]}|"
-    %p
-      = "filter: max_price |#{session[:filter][:max_price]}|"
-  - else
-    = "filter: |UNDEFINED|"
+  -#%p
+  -#- if session[:sort] != nil
+    -#= "sort: |#{session[:sort]}|"
+  -#- else
+    -#= "sort: |UNDEFINED|"
+  -#%p
+  -#- if session[:filter] != nil
+    -#= "filter: min_age |#{session[:filter][:min_age]}|"
+    -#%p
+      -#= "filter: max_price |#{session[:filter][:max_price]}|"
+  -#- else
+    -#= "filter: |UNDEFINED|"
 
   %h3 All products
 
