@@ -1,7 +1,7 @@
 #main
   %h2 All products
 
-  %p Session:
+  -#%p Session:
   -#%p
   -#- if session[:sort] != nil
     -#= "sort: |#{session[:sort]}|"
@@ -15,7 +15,7 @@
   -#- else
     -#= "filter: |UNDEFINED|"
 
-  %h3 All products
+  -#%h3 All products
 
   %p
     = form_tag products_path, method: 'get' do
@@ -28,18 +28,20 @@
 
   %p= link_to 'Create a new product', new_product_path
 
-  %table.products_table
-    %tr.products_header
-      %th= link_to "Name", products_path(sort: "name")
-      %th Image
-      %th Description
-      %th= link_to "Appropriate ages", products_path(sort: "minimum_age_appropriate")
-      %th#price= link_to "Price", products_path(sort: "price")
-    - @products.each do |p|
-      %tr
-        %td.productname= link_to "#{p.name}", product_path(p)
-        %td= image_tag p.image.url(:thumb)
-        %td= p.description
-        %td= p.age_range
-        %td#price= number_to_currency(p.price)
-
+  - unless @products.empty?
+    %table.products_table
+      %tr.products_header
+        %th= link_to "Name", products_path(sort: "name")
+        %th Image
+        %th Description
+        %th= link_to "Appropriate ages", products_path(sort: "minimum_age_appropriate")
+        %th#price= link_to "Price", products_path(sort: "price")
+      - @products.each do |p|
+        %tr
+          %td.productname= link_to "#{p.name}", product_path(p)
+          %td= image_tag p.image.url(:thumb)
+          %td= p.description
+          %td= p.age_range
+          %td#price= number_to_currency(p.price)
+  - else
+    %h3= "No Items Found!"
