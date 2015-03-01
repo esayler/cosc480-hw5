@@ -1,21 +1,17 @@
 #main
   %h2 All products
 
-  -#%p Session:
-  -#%p
-  -#- if session[:sort] != nil
-    -#= "sort: |#{session[:sort]}|"
-  -#- else
-    -#= "sort: |UNDEFINED|"
-  -#%p
-  -#- if session[:filter] != nil
-    -#= "filter: min_age |#{session[:filter][:min_age]}|"
-    -#%p
-      -#= "filter: max_price |#{session[:filter][:max_price]}|"
-  -#- else
-    -#= "filter: |UNDEFINED|"
-
-  -#%h3 All products
+  %p
+    Session:
+    - if session[:sort] != nil
+      = "sort: |#{session[:sort]}|"
+    - else
+      = "sort: |UNDEFINED|"
+    - if session[:filter] != nil
+      = "filter: min_age |#{session[:filter][:min_age]}|"
+      = "filter: max_price |#{session[:filter][:max_price]}|"
+    - else
+      = "filter: |UNDEFINED|"
 
   %p
     = form_tag products_path, method: 'get' do
@@ -24,7 +20,6 @@
       = label_tag "maximum price"
       = number_field_tag 'filter[max_price]', nil, min: 0
       = submit_tag "filter products"
-      -#= submit_tag "reset filter"
 
   %p= link_to 'Create a new product', new_product_path
 

@@ -1,11 +1,19 @@
 #main
   %h2 Product details for #{@product.name}
 
-  %p= link_to 'Edit product', edit_product_path(@product)
-  %ul
-    %li= image_tag @product.image.url(:medium)
-    %li= "Description: #{@product.description}"
-    %li= "Ages: #{@product.age_range}"
-    %li= "Price: #{number_to_currency(@product.price)}"
+  %h4= link_to 'Edit product', edit_product_path(@product)
 
-  %p= link_to 'Back to product list', products_path
+  %p#image
+    = image_tag @product.image.url(:medium)
+  
+  %table.products_table
+    %tr.products_header
+      %th Description
+      %th Appropriate ages
+      %th#price Price
+    %tr
+      %td= @product.description
+      %td= @product.age_range
+      %td#price= @product.price
+
+  %h4= link_to 'Back to product list', products_path
