@@ -32,6 +32,11 @@ gem "paperclip", "~> 4.2"
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+group :test do
+  gem 'simplecov', :require => false
+  gem 'database_cleaner'
+end
+
 group :development, :test do
   # Use sqlite3 as the database for Active Record
   gem 'sqlite3'
