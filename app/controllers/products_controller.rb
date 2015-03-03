@@ -2,6 +2,7 @@ class ProductsController < ApplicationController
   include ProductsHelper
 
   def index
+    #TODO: move code to a helper method in ProductsHelper?
     if params.has_key?(:filter) && params.has_key?(:sort)
       if @products = Product.filter_by(params[:filter])
         session[:filter] = params[:filter]
@@ -12,19 +13,9 @@ class ProductsController < ApplicationController
     elsif params.has_key?(:filter)
       flash.keep
       redirect_to products_path :sort => session[:sort], :filter => params[:filter]
-      #new_sort = session[:sort]
-      #if @products = Product.filter_by(params[:filter])
-        #session[:filter] = params[:filter]
-        #new_sort = session[:sort]
-      #end
     elsif params.has_key?(:sort)
       flash.keep
       redirect_to products_path :sort => params[:sort], :filter => session[:filter]
-      #new_filter = session[:sort]
-      #if @products = Product.sorted_by(params[:sort])
-        #session[:sort] = params[:sort]
-        #new_filter = session[:filter]
-      #end
     else
       if session[:sort].nil?
         new_sort = "name"
@@ -37,6 +28,7 @@ class ProductsController < ApplicationController
       else
         new_filter = session[:filter]
       end
+
       flash.keep
       redirect_to products_path :sort => new_sort, :filter => new_filter
     end

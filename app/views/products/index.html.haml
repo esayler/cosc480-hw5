@@ -1,18 +1,5 @@
 #main
   %h2 All products
-
-  %p
-    Session:
-    - if session[:sort] != nil
-      = "sort: |#{session[:sort]}|"
-    - else
-      = "sort: |UNDEFINED|"
-    - if session[:filter] != nil
-      = "filter: min_age |#{session[:filter][:min_age]}|"
-      = "filter: max_price |#{session[:filter][:max_price]}|"
-    - else
-      = "filter: |UNDEFINED|"
-
   %p
     = form_tag products_path, method: 'get' do
       = label_tag "minimum age"
