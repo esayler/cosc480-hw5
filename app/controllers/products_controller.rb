@@ -10,18 +10,33 @@ class ProductsController < ApplicationController
         end
       end
     elsif params.has_key?(:filter)
+      flash.keep
+      redirect_to products_path :sort => session[:sort], :filter => params[:filter]
       #new_sort = session[:sort]
-      if @products = Product.filter_by(params[:filter])
-        session[:filter] = params[:filter]
-      end
+      #if @products = Product.filter_by(params[:filter])
+        #session[:filter] = params[:filter]
+        #new_sort = session[:sort]
+      #end
     elsif params.has_key?(:sort)
+      flash.keep
+      redirect_to products_path :sort => params[:sort], :filter => session[:filter]
       #new_filter = session[:sort]
-      if @products = Product.sorted_by(params[:sort])
-        session[:sort] = params[:sort]
-      end
+      #if @products = Product.sorted_by(params[:sort])
+        #session[:sort] = params[:sort]
+        #new_filter = session[:filter]
+      #end
     else
-      new_sort = session[:sort]
-      new_filter = session[:filter]
+      if session[:sort].nil?
+        new_sort = "name"
+      else
+        new_sort = session[:sort]
+      end
+
+      if session[:filter].nil?
+        new_filter = { :min_age => String.new, :max_price => String.new }
+      else
+        new_filter = session[:filter]
+      end
       flash.keep
       redirect_to products_path :sort => new_sort, :filter => new_filter
     end

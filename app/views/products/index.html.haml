@@ -16,9 +16,9 @@
   %p
     = form_tag products_path, method: 'get' do
       = label_tag "minimum age"
-      = number_field_tag 'filter[min_age]', nil, min: 0
+      = number_field_tag "filter[min_age]", nil, min: 0
       = label_tag "maximum price"
-      = number_field_tag 'filter[max_price]', nil, min: 0
+      = number_field_tag "filter[max_price]", nil, min: 0, :step => 0.1
       = submit_tag "filter products"
 
   %p= link_to 'Create a new product', new_product_path
