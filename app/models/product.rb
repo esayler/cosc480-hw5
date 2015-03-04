@@ -45,12 +45,13 @@ class Product < ActiveRecord::Base
   end
 
   def self.filter_by(filter)
-    if filter != nil
-      if filter[:min_age] != "" && filter[:max_price] != ""
-        Product.where("minimum_age_appropriate <= ? AND price <= ?", filter[:min_age], filter[:max_price])
-      elsif filter[:min_age] != ""
+    if !filter.nil?
+      if !filter[:min_age].blank? && !filter[:max_price].blank?
+        Product.where("minimum_age_appropriate <= ? AND price <= ?",
+                      filter[:min_age], filter[:max_price])
+      elsif !filter[:min_age].blank?
         Product.where("minimum_age_appropriate <= ?", filter[:min_age])
-      elsif filter[:max_price] != ""
+      elsif !filter[:max_price].blank?
         Product.where("price <= ?", filter[:max_price])
       else
         Product.all
@@ -58,7 +59,5 @@ class Product < ActiveRecord::Base
     else
       Product.all
     end
-
   end
-
 end

@@ -3,34 +3,19 @@ class ProductsController < ApplicationController
 
   def index
     #TODO: move code to a helper method in ProductsHelper?
-    if params.has_key?(:filter) && params.has_key?(:sort)
-      if @products = Product.filter_by(params[:filter])
-        session[:filter] = params[:filter]
-        if @products = @products.sorted_by(params[:sort])
-          session[:sort] = params[:sort]
-        end
+    # breaks if user disables cookies
+    if params.include?(:filter) and params.include?(:sort)
+      if @products = Product.filter_by(params[:filter]).sorted_by(params[:sort])
+        session[:filter] = params[:filter]; session[:sort] = params[:sort]
       end
-    elsif params.has_key?(:filter)
-      flash.keep
-      redirect_to products_path :sort => session[:sort], :filter => params[:filter]
-    elsif params.has_key?(:sort)
-      flash.keep
-      redirect_to products_path :sort => params[:sort], :filter => session[:filter]
+    elsif params.include?(:filter) # and not params.include?(:sort)
+      flash.keep; redirect_to products_path sort: session[:sort], filter: params[:filter]
+    elsif params.include?(:sort) # and not params.include?(:filter)
+      flash.keep; redirect_to products_path sort: params[:sort], filter: session[:filter]
     else
-      if session[:sort].nil?
-        new_sort = "name"
-      else
-        new_sort = session[:sort]
-      end
-
-      if session[:filter].nil?
-        new_filter = { :min_age => String.new, :max_price => String.new }
-      else
-        new_filter = session[:filter]
-      end
-
-      flash.keep
-      redirect_to products_path :sort => new_sort, :filter => new_filter
+      new_sort = session[:sort] == nil ? "name" : session[:sort]
+      new_filter = session[:filter] == nil ? {min_age: "", max_price: ""} : session[:filter]
+      flash.keep; redirect_to products_path sort: new_sort, filter: new_filter
     end
   end
 
