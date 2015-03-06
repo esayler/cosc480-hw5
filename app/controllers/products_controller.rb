@@ -8,9 +8,9 @@ class ProductsController < ApplicationController
       if @products = Product.filter_by(params[:filter]).sorted_by(params[:sort])
         session[:filter] = params[:filter]; session[:sort] = params[:sort]
       end
-    elsif params.include?(:filter) # and not params.include?(:sort)
+    elsif params.include?(:filter)
       flash.keep; redirect_to products_path sort: session[:sort], filter: params[:filter]
-    elsif params.include?(:sort) # and not params.include?(:filter)
+    elsif params.include?(:sort)
       flash.keep; redirect_to products_path sort: params[:sort], filter: session[:filter]
     else
       new_sort = session[:sort] == nil ? "name" : session[:sort]

@@ -34,7 +34,7 @@ class Product < ActiveRecord::Base
     elsif age_lo
       age < age_lo ? false : true
     else
-      # urn true if neither min/max are set
+      # return true if neither min/max are set
       true
     end
   end
