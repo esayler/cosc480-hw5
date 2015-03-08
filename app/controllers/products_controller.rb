@@ -9,13 +9,16 @@ class ProductsController < ApplicationController
         session[:filter] = params[:filter]; session[:sort] = params[:sort]
       end
     elsif params.include?(:filter)
-      flash.keep; redirect_to products_path sort: session[:sort], filter: params[:filter]
+      flash.keep
+      redirect_to products_path sort: session[:sort], filter: params[:filter]
     elsif params.include?(:sort)
-      flash.keep; redirect_to products_path sort: params[:sort], filter: session[:filter]
+      flash.keep
+      redirect_to products_path sort: params[:sort], filter: session[:filter]
     else
       new_sort = session[:sort] == nil ? "name" : session[:sort]
       new_filter = session[:filter] == nil ? {min_age: "", max_price: ""} : session[:filter]
-      flash.keep; redirect_to products_path sort: new_sort, filter: new_filter
+      flash.keep
+      redirect_to products_path sort: new_sort, filter: new_filter
     end
   end
 

@@ -21,4 +21,4 @@
 
 *.tar
 
-/coverage/
+coverage/**
