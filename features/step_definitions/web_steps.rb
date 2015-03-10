@@ -41,17 +41,17 @@ When /^(.*) within (.*[^:]):$/ do |step, parent, table_or_string|
   with_scope(parent) { When "#{step}:", table_or_string }
 end
 
-Given /^(?:|I )am on (.+)$/ do |page_name|
-  visit path_to(page_name)
-end
+#Given /^(?:|I )am on (.+)$/ do |page_name|
+  #visit path_to(page_name)
+#end
 
 When /^(?:|I )go to (.+)$/ do |page_name|
   visit path_to(page_name)
 end
 
-When /^(?:|I )press "([^"]*)"$/ do |button|
-  click_button(button)
-end
+#When /^(?:|I )press "([^"]*)"$/ do |button|
+  #click_button(button)
+#end
 
 When /^(?:|I )follow "([^"]*)"$/ do |link|
   click_link(link)
@@ -75,9 +75,15 @@ end
 #
 # TODO: Add support for checkbox, select or option
 # based on naming conventions.
-#
-When /^(?:|I )fill in the following:$/ do |fields|
-  fields.rows_hash.each do |name, value|
+
+#when /^(?:|i )fill in the following:$/ do |fields|
+  #fields.rows_hash.each do |name, value|
+    #when %{i fill in "#{name}" with "#{value}"}
+  #end
+#end
+
+Given /^these Products$/ do |fields|
+  fields.rows_hash.each do |name, desc, price|
     When %{I fill in "#{name}" with "#{value}"}
   end
 end
@@ -252,3 +258,60 @@ end
 Then /^show me the page$/ do
   save_and_open_page
 end
+
+
+
+Given /^these Products:$/ do |table|
+    Product.create!(table.hashes)
+end
+
+
+Given /^(?:|I )am on (.+)$/ do |page_name|
+  if page_name == "the create new product page"
+    page_name = "the new product page"
+  end
+  #visit(products_path(post))
+  visit path_to(page_name)
+end
+
+When /^(?:|I )fill in the following:$/ do |fields|
+  fields.rows_hash.each do |name, value|
+    step %{I fill in "#{name}" with "#{value}"}
+  end
+end
+
+And /^I press "Create product"$/ do
+  click_button("Create Product")
+end
+
+
+  #When /^I fill in the following:$/ do |fields|
+    #fields.rows_hash.each do |name, value|
+      #When %{I fill in "#{name}" with "#{value}"}
+    #end
+    #And /^I press "Create product"$/ do
+
+    #end
+  #end
+#end
+
+Then(/^I should see that "(.*?)" has a price of "(.*?)"$/) do |arg1, arg2|
+  pending # express the regexp above with the code you wish you had
+end
+
+Then(/^I should see that "(.*?)" has an image "(.*?)"$/) do |arg1, arg2|
+  pending # express the regexp above with the code you wish you had
+end
+
+Then(/^I should see product price in sorted order$/) do
+  pending # express the regexp above with the code you wish you had
+end
+
+Then(/^I should see product name in sorted order$/) do
+  pending # express the regexp above with the code you wish you had
+end
+
+Then(/^I should see the image "(.*?)"$/) do |arg1|
+  pending # express the regexp above with the code you wish you had
+end
+

@@ -4,10 +4,11 @@ class ProductsController < ApplicationController
   def index
     #TODO: move code to a helper method in ProductsHelper?
     # breaks if user disables cookies
-    if params.include?(:filter) and params.include?(:sort)
-      if @products = Product.filter_by(params[:filter]).sorted_by(params[:sort])
-        session[:filter] = params[:filter]; session[:sort] = params[:sort]
-      end
+    if params.include?(:filter) && params.include?(:sort)
+      @products = Product.filter_by(params[:filter])
+        .sorted_by(params[:sort])
+      session[:filter] = params[:filter]
+      session[:sort] = params[:sort]
     elsif params.include?(:filter)
       flash.keep
       redirect_to products_path sort: session[:sort], filter: params[:filter]
@@ -16,7 +17,12 @@ class ProductsController < ApplicationController
       redirect_to products_path sort: params[:sort], filter: session[:filter]
     else
       new_sort = session[:sort] == nil ? "name" : session[:sort]
-      new_filter = session[:filter] == nil ? {min_age: "", max_price: ""} : session[:filter]
+      new_filter =
+        if session[:filter].nil?
+          {:min_age =>  "", :max_price => ""}
+        else
+          session[:filter]
+        end
       flash.keep
       redirect_to products_path sort: new_sort, filter: new_filter
     end
