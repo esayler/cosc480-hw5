@@ -40,7 +40,7 @@ body .products_table {
   font-style: normal; 
 }
 
-body #price {
+body .price {
   text-align: right;
 }
 

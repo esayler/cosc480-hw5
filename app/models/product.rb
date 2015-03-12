@@ -49,8 +49,7 @@ class Product < ActiveRecord::Base
       Product.all
     else
       if filter[:min_age].present? && filter[:max_price].present?
-        Product.where("minimum_age_appropriate <= ? AND price <= ?",
-                      filter[:min_age], filter[:max_price])
+        Product.where("minimum_age_appropriate <= ? AND price <= ?", filter[:min_age], filter[:max_price])
       elsif filter[:min_age].present? && filter[:max_price].blank?
         Product.where("minimum_age_appropriate <= ?", filter[:min_age])
       elsif filter[:max_price].present? && filter[:min_age].blank?

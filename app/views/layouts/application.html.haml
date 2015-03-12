@@ -10,11 +10,11 @@
     #header
       %h1= link_to 'Vandelay Industries Toy Store', products_path
 
-  .flash
-    - if flash[:notice]
-      %p#notice= flash[:notice]
-    - else flash[:alert]
-      %p#warning= flash[:warning]
+    .flash
+      - if flash[:notice]
+        %p#notice= flash[:notice]
+      - else flash[:alert]
+        %p#warning= flash[:warning]
 
   = yield
 
