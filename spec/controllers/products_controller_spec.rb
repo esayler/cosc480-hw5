@@ -2,120 +2,147 @@ require 'rails_helper'
 
 RSpec.describe ProductsController, type: :controller do
 
-  describe "root route" do
+  describe 'root route' do
     it "routes to products#index" do
       expect(:get => '/').to route_to(:controller => "products", :action => "index")
     end
   end
 
-  describe "GET #index" do
-    context 'with params[:filter] and params[:sort]' do
-      it "routes correctly" do
+  describe 'GET #index' do
+    context 'with params[:sort]' do
+      it "should route correctly" do
         get :index
         expect(response.status).to eq(200)
       end
-      it 'renders rendres the :index template and sorts by '
-
-     end
-    context 'without params[:filter]' do
-      it "routes correctly" do
-
+      it "should render the :index template and sorts by params " do
+        get :index, sort: "name"
+        expect(response). to render_template :index
       end
-      it "renders the :index template and sorts by name by default" do
-        x, y = Product.create!, Product.create!
-        expect(Product).to receive(:sorted_by).with("name") { [x,y] }
+    end
+    context 'without params[:filter]' do
+      it "should routes correctly" do
+      end
+      it "should render the :index template and sort by name by default" do
+        woody = FactoryGirl.create(:product, name: "Woody")
+        potato_head = FactoryGirl.create(:product, name: "Mr. Potato Head")
+        expect(Product).to receive(:sorted_by).with("name") { [potato_head, woody] }
         get :index
         expect(response).to render_template(:index)
-        expect(assigns(:products)).to match_array([x,y])
+        expect(assigns(:products)).to match_array([potato_head, woody])
       end
+    end
     context 'without params[:filter]' do
-      it "routes correctly" do
-      it 'renders the :index template and sorts by '
+      it "should route correctly" do
+        #TODO
+      end
+      it "should render the :index template and sort by name " do
+        #TODO
+      end
     end
   end
 
-  describe "GET #show" do
-    it "routes correctly" do
-      expect(Product).to receive(:find).with("1") { p }
-      get :show, id: 1
-      p = Product.new
+  describe 'GET #show' do
+    it "should route correctly" do
+      # more failures...TODO: figure this out
+      p = FactoryGirl.create(:product)
+      get :show, id: p
       expect(response.status).to eq(200)
     end
 
-    it "renders the show template" do
-      expect(Product).to receive(:find).with("1") { p }
-      get :show, id: 1
-      expect(response).to render_template(:show)
+    it "should assign the requested product to @product" do
+      p = FactoryGirl.create(:product)
+      # more failures...TODO: figure this out
+      get :show, id: p
+      expect(assigns(:product)).to eq p
+    end
+
+    it "should render the show template" do
+      p = FactoryGirl.create(:product)
+      get :show, id: p
+      expect(response).to render_template :show
     end
   end
 
   describe 'GET #new' do
-    it "assigns a new Product to @product"
-    it "renders the :new template"
+    it "should assign a new Product to @product" do
+      get :new
+      expect(assigns(:product)).to be_a_new(Product)
+    end
+    it "renders the :new template" do
+      get :new
+      expect(response).to render_template :new
+    end
   end
 
   describe 'GET #edit' do
-    it "assigns the requested product to @product"
-    it "renders the :edit template"
+    it "should assign the requested product to @product" do
+      # somethings wrong here...
+      p = FactoryGirl.create(:product)
+      get :edit, id: p
+      expect(assigns(:product)).to eq p
+    end
+    it "should render the :edit template" do
+      p = FactoryGirl.create(:product)
+      get :edit, id: p
+      expect(response).to render_template :edit
+    end
   end
 
-  describe "POST #create" do
-    context "with valid attributes" do
-      it "saves the new product in the database"
-      
-      it "redirects to the products#index" do
-        p = Product.new
-        #Product.should_receive(:new).and_return(p)
-        expect(Product).to receive(:new) { p }
-
-        #p.should_receive(:save).and_return(true)
-        expect(p).to receive(:save) { true }
-
-        post :create, { :product => { "name" => "dummy", "price" => "11.50" } }
-
-        #response.should redirect_to(products_path)
-        expect(response).to redirect_to(products_path)
+  describe 'POST #create' do
+    context 'with valid attributes' do
+      it "should save the new product in the database" do
       end
-    end
-    context "with invalid attributes" do
-      it "does not save the new product in the database"
-      it "rerenders the :new template" do
-        p = Product.new
-        #Product.should_receive(:new).and_return(p)
+      it "redirects to the products#index" do
+        p = FactoryGirl.create(:product)
         expect(Product).to receive(:new) { p }
-
-        #p.should_receive(:save).and_return(nil)
-        expect(p).to receive(:save) { nil }
-
-        post :create, { :product => { "name"=>"dummy", "price"=>"11.50" } }
-
-        #response.should redirect_to(new_product_path)
-        expect(response).to redirect_to(new_product_path)
+        expect(p).to receive(:save) { true }
+        expect{ post :create, p }.to change(Product, :count).by(1)
+        expect(response).to redirect_to product_path(assigns[:product])
+        expect(flash[:notice]).to be_present
       end
     end
   end
 
   describe 'PATCH #update' do
-    context "with valid attributes" do
-      it "updates the product in the database"
-      it "redirect to the product"
+    before :each do
+      @product = FactoryGirl.create(:product, name: 'Dummy', description: 'blah')
     end
 
-    context "with invalid attributes" do
-      it "does not update the product"
-      it "re-renders the :edit template"
+    context 'with valid attributes' do
+      it "should find the requested @product" do
+        # this is wrong...
+        patch :update, id: @product
+        expect(assigns(:product)).to eq(@product)
+      end
+      it "should update the product in the database" do
+        patch :update, id: @product
+        @product.reload
+        expect(@product.name).to eq('Dummy')
+        expect(@product.description).to eq('blah')
+      end
+
+      it "should redirect to the products#show" do
+        post :create, id: @product
+        expect(response).to redirect_to @product
+        expect(flash[:notice]).to be_present
+      end
     end
   end
 
-  describe 'DELETE #destroy' do
-    it "deletes the product from the database"
-    it "redirects to products#index"
-    before(:each) do
-      Product.create! :name => "name", :price => 19.99, ... (other product details)
-    end
-    
-    it "should delete the product" do
-      expect
-    end
-  end
+  #describe 'DELETE #destroy' do
+    #before :each do
+      #@product = FactoryGirl.create(:product)
+    #end
+
+    #it "deletes the product from the database" do
+      #expect{
+        #delete :destroy, id: @product
+      #}.to change(Product, :count).by(-1)
+    #end
+
+    #it "redirects to products#index" do
+      #delete :destroy, id: @product
+      #expect(response).to redirect_to products_path
+    #end
+  #end
 end

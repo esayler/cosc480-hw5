@@ -5,15 +5,19 @@ RSpec.describe Product, type: :model do
     it "should have an 'age_range' that creates a user-friendly string" do
       p = Product.new
       expect(p).to respond_to(:age_range)
+      #expect(FactoryGirl.build(:product)).to respond_to(:age_range)
     end
 
     it "should return '0 and above' if neither min or max is set" do
       p = Product.new
       expect(p.age_range).to eq("0 and above")
+      #p = FactoryGirl.build(:product, minimum_age_appropriate: nil, maximum_age_appropriate: nil)
+      #expect(p.age_range).to eq("0 and above")
     end
 
     it "should return '1 to 3' if min is set to 1 and max is set to 3" do
       p = Product.new
+      #p = FactoryGirl.build(:product, minimum_age_appropriate: 1, maximum_age_appropriate: 3)
       p.minimum_age_appropriate = 1
       p.maximum_age_appropriate = 3
       expect(p.age_range).to eq("1 to 3")
@@ -22,11 +26,13 @@ RSpec.describe Product, type: :model do
     it "should return '1 and above' if min is set to 1 but max is not set" do
       p = Product.new
       p.minimum_age_appropriate = 1
+      #p = FactoryGirl.build(:product, minimum_age_appropriate: 1, maximum_age_appropriate: nil)
       expect(p.age_range).to eq("1 and above")
     end
 
     it "should return '1 and above' if min is set to 1 but max is not set" do
       p = Product.new
+      #p = FactoryGirl.build(:product, minimum_age_appropriate: 1, maximum_age_appropriate: 1)
       p.minimum_age_appropriate = 1
       p.maximum_age_appropriate = 1
       expect(p.age_range).to eq("Age 1")
@@ -37,16 +43,20 @@ RSpec.describe Product, type: :model do
   context "The age_appropriate? predicate should determine whether a toy is age-appropriate or not" do
     it "should have an 'age_appropriate?' predicate method" do
       p = Product.new
+      #p = FactoryGirl.build(:product, minimum_age_appropriate: 1, maximum_age_appropriate: 1)
+      p.minimum_age_appropriate = 1
       expect(p).to respond_to(:age_appropriate?)
     end
 
     it "should return true to any age if neither min/max are set" do
       p = Product.new
+      #p = FactoryGirl.build(:product, minimum_age_appropriate: nil, maximum_age_appropriate: nil)
       0.upto(10) { |a| expect(p.age_appropriate?(a)).to be true }
     end
 
     it "should check that the age is >= to min if min is set but max isn't" do
       p = Product.new
+      #p = FactoryGirl.build(:product, minimum_age_appropriate: 3, maximum_age_appropriate: nil)
       p.minimum_age_appropriate = 3
       3.upto(10) { |a| expect(p.age_appropriate?(a)).to be true }
       0.upto(2) { |a| expect(p.age_appropriate?(a)).to be false }
@@ -54,6 +64,7 @@ RSpec.describe Product, type: :model do
 
     it "should check that the age is between (inclusive) min and max if both min and max are set" do
       p = Product.new
+      #p = FactoryGirl.build(:product, minimum_age_appropriate: 3, maximum_age_appropriate: 6)
       p.minimum_age_appropriate = 3
       p.maximum_age_appropriate = 6
       3.upto(6) { |a| expect(p.age_appropriate?(a)).to be true }
